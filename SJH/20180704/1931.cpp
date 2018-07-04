@@ -1,11 +1,13 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
 
-bool checkOverlap(const vector<pair<int, int>>& pv, const pair<int, int>& p2) ;
-bool comp(const pair<int, int>& l, const pair<int, int>& r);
+typedef struct _schedule {
+	int start, end;
+} schedule;
+
+bool comp2(const schedule& a, const schedule& b);
 
 int main(void)
 {
@@ -15,42 +17,31 @@ int main(void)
 	int num;
 	cin >> num;
 
-	vector<pair<int, int>> studies(num);
+	schedule studies[100000];
 
 	for (int i = 0; i < num; ++i) 
-		cin >> studies[i].first >> studies[i].second;
+		cin >> studies[i].start >> studies[i].end;
 
-	sort(studies.begin(), studies.end(), comp);
-	vector<pair<int, int>> result_vec;
+	sort(studies, studies + num, comp2);
 
-	for (int i = 0; i < num; ++i) {
-		//여기서 걸리는 시간이 같은 것들 중에 최대한 많이 채워넣을수있는 경우를 택해서 하면 된다.
-		
-		if (result_vec.empty() || !checkOverlap(result_vec, studies[i]))
-			result_vec.push_back(make_pair(studies[i].first, studies[i].second));
-	}
+	for (int i = 0; i < num; ++i)
+		cout << "(" << studies[i].start << ", " << studies[i].end << ")" << endl;
+	int result = 1;
+	const schedule* pSchedule = &studies[0];
 
-	for (int i = 0; i < result_vec.size(); ++i)
-		cout << "(" << result_vec[i].first << ", " << result_vec[i].second << ")" << endl;
-	cout << result_vec.size() << endl;
+	for (int i = 1; i < num; ++i)
+		if (studies[i].start >= pSchedule->end) {
+			pSchedule = &studies[i];
+			++ result;
+		}
+
+	cout << result << endl;
 
 	return 0;
 }
 
-bool checkOverlap(const vector<pair<int, int>>& pv, const pair<int, int>& p2) 
+bool comp2(const schedule& a, const schedule& b) 
 {
-	for (int i = 0; i < pv.size(); ++i) {
-		if (pv[i].second > p2.first && pv[i].first < p2.second ||
-	    		pv[i].first < p2.second && p2.first < pv[i].second)
-			return true;
-	}
-	return false;
-}
-
-bool comp(const pair<int, int>& l, const pair<int, int>& r)
-{
-	if (l.second - l.first < r.second - r.first)
-		return true;
-	else 
-		return false;
+	if (a.end == b.end) return a.start < b.start;
+	else return a.end < b.end;
 }
