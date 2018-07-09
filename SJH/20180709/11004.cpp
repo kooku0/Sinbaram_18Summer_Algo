@@ -46,13 +46,13 @@ int sortWithPivot(int *arr, int left, int right)
 		{
 			if (arr[i] > pivot && arr[j] < pivot)
 				swap(&arr[i++], &arr[j--]);
-            else {
-                if (arr[i] <= pivot)
-				    ++i;
-                if (arr[j] >= pivot)
-                    --j;
-            }
-		}
+            		else {
+                		if (arr[i] <= pivot)
+				    	++i;
+                		if (arr[j] >= pivot)
+                    			--j;
+            	}
+			}			
 		swap(&arr[i], &arr[right - 1]);
 	}
 
@@ -67,18 +67,18 @@ int quickChecking(int *arr, int left, int right)
 		return pivotIdx;
 	else
 	{
-        if (pivotIdx < targetIdx)
-        {
-            int rightPivotIdx = quickChecking(arr, pivotIdx + 1, right);
-            if (rightPivotIdx == targetIdx)
-                return rightPivotIdx;
-        }
-        else
-        {
-            int leftPivotIdx = quickChecking(arr, left, pivotIdx);
-            if (leftPivotIdx == targetIdx)
-                return leftPivotIdx;
-        }
+        	if (pivotIdx < targetIdx)
+        	{
+        	    int rightPivotIdx = quickChecking(arr, pivotIdx + 1, right);
+        	    if (rightPivotIdx == targetIdx)
+        	        return rightPivotIdx;
+        	}
+        	else
+        	{
+        	    int leftPivotIdx = quickChecking(arr, left, pivotIdx);
+        	    if (leftPivotIdx == targetIdx)
+        	        return leftPivotIdx;
+        	}
 
 		return -1;
 	}
