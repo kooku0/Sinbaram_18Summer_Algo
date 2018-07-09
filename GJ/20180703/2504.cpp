@@ -15,13 +15,10 @@ void run(){
     stack<int> op;
     stack<char> s;
     bool state = true;
-    int prev = 1;
-    bool isPushed = true;
     for(auto i : str){
         if(i == '(' || i == '['){
             s.push(i);
-            isPushed = true;
-        }
+        } // open case
         else{
             if(s.empty()){
                 state = false;
@@ -34,30 +31,17 @@ void run(){
                     break;
                 }
                 s.pop();
-            }
+            } // bracket ']'
             else{
                 if(i == ')' || s.empty()){
                     state = false;
                     break;
                 }
                 s.pop();
-            } // end of if
+            } // bracket ')'
+        } // close case
 
-            if(i == ')') op.push(2);
-            else op.push(3);
-            isPushed = false;
-        } // end of if
 
-        if(op.top()){
-            if(isPushed){
-                result += prev;
-                prev = 1;
-            }
-            else{
-                prev *= op.top();
-                op.pop();
-            } // end of if
-        }
     } // end of for
     if(!s.empty()) state = false;
     if(state == false) cout << 0 << endl;
