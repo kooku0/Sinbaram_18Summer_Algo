@@ -52,8 +52,8 @@ bool execute(const ll& N){
 }
 
 void bford(const ll& N){
-	// llialize
-	for(ll v = 1; v <= N; v++) wgt[v] = INF;
+	// initialize
+	for(ll v = 1; v <= N; v++) wgt[v] = INF;/ 
 	wgt[START] = 0;
 
 	hasCycle = execute(N);
